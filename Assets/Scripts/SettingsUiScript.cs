@@ -31,6 +31,7 @@ public class SettingsUiScript : MonoBehaviour
 
     public void BackButton()
     {
+        PDataScript.Instance.SaveHighScore(0);
         SceneManager.LoadScene(0);
     }
 }

@@ -37,6 +37,7 @@ public class PDataScript : MonoBehaviour
             HighScores data = JsonUtility.FromJson<HighScores>(json);
             playerNames = data.playerNames;
             HighScoreValues = data.HighScoreValues;
+            backgroundColor = data.Background;
         }
         else {
             playerNames = new string[10];
@@ -75,6 +76,7 @@ public class PDataScript : MonoBehaviour
         HighScores data = new HighScores();
         data.playerNames = playerNames;
         data.HighScoreValues = HighScoreValues;
+        data.Background = backgroundColor;
 
         string json = JsonUtility.ToJson(data);
 
@@ -95,6 +97,7 @@ public class PDataScript : MonoBehaviour
     public class HighScores {
        public string[] playerNames;
        public int[] HighScoreValues;
+        public Color Background;
     }
 
     
