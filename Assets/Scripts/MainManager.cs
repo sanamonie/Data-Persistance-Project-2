@@ -12,16 +12,21 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public Text Name;
+    public Text HighScoreList;
     
     private bool m_Started = false;
     private int m_Points;
     
     private bool m_GameOver = false;
 
+    public GameObject background;
+
     
     // Start is called before the first frame update
     void Start()
     {
+        
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -36,6 +41,15 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        Name = GameObject.Find("Name").GetComponent<Text>();
+        //persistant data setup
+        Name.text = "Best Score : " + PDataScript.Instance.getName() + " Name : 0";
+        //set up high scores
+        HighScoreList = GameObject.Find("HighScores").GetComponent<Text>();
+        SetupHighScores();
+
+        setBackground();
     }
 
     private void Update()
@@ -72,5 +86,19 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        PDataScript.Instance.SaveHighScore(m_Points);
+        SetupHighScores();
+    }
+
+    public void SetupHighScores() {
+        string highScoreText = "";
+        for (int i = 0; i < 10; i++) {
+            highScoreText += PDataScript.Instance.playerNames[i] + ": " + PDataScript.Instance.HighScoreValues[i] + System.Environment.NewLine;
+        }
+        HighScoreList.text = highScoreText;
+    }
+    public void setBackground() {
+        background.GetComponent<Renderer>().material.color = PDataScript.Instance.backgroundColor;
+       // background.renderer.matieral.color = PDataScript.Instance.backgroundColor;
     }
 }
